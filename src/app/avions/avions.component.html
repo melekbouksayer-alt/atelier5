@@ -1,0 +1,56 @@
+<div class="container mt-4">
+  <div class="card shadow mb-4">
+    <div class="card-body">
+
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Liste des Avions</h2>
+        <a class="btn btn-primary" routerLink="/add-avion">Ajouter un avion</a>
+      </div>
+
+      <table class="table table-striped table-bordered">
+        <thead class="table-light">
+          <tr>
+            <th>Id</th>
+            <th>Matricule</th>
+            <th>Modèle</th>
+            <th>Compagnie</th>
+            <th>Capacité</th>
+            <th>Date mise en service</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        @for (avion of avions; track avion.idAvion) {
+          <tbody>
+            <tr>
+              <td>{{ avion.idAvion }}</td>
+              <td>{{ avion.matricule }}</td>
+              <td>{{ avion.modele }}</td>
+              <td>{{ avion.compagnie.nomCompagnie }}</td>
+              <td>{{ avion.capacite }}</td>
+              <td>{{ avion.dateMiseEnService | date:'dd/MM/yyyy' }}</td>
+              <td>
+                <a class="btn btn-success btn-sm me-1"
+                   [routerLink]="['/updateAvion', avion.idAvion]">
+                  Modifier
+                </a>
+
+                <a class="btn btn-danger btn-sm"
+                   (click)="supprimerAvion(avion)">
+                  Supprimer
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        } @empty {
+          <tbody>
+            <tr>
+              <td colspan="7" class="text-center">Aucun avion trouvé !</td>
+            </tr>
+          </tbody>
+        }
+      </table>
+
+    </div>
+  </div>
+</div>
