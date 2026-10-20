@@ -1,3 +1,4 @@
+
 import { Injectable } from '@angular/core';
 import { Avion } from '../model/avion.model';
 import { Compagnie } from '../model/compagnie.model';
@@ -6,8 +7,8 @@ import { Compagnie } from '../model/compagnie.model';
   providedIn: 'root'
 })
 export class AvionService {
-  compagnies: Compagnie[];
-  avions: Avion[];
+  compagnies: Compagnie[] = [];
+  avions: Avion[] = [];
 
   constructor() {
     this.compagnies = [
@@ -56,11 +57,37 @@ export class AvionService {
     return this.compagnies;
   }
 
+  rechercherParCategorie(idCompagnie: number): Avion[] {
+    if (!idCompagnie) {
+      return [...this.avions];
+    }
+
+    return this.avions.filter(
+      avion => avion.compagnie?.idCompagnie === Number(idCompagnie)
+    );
+  }
+
+  rechercherParNom(nom: string): Avion[] {
+    const texte = (nom || '').trim().toLowerCase();
+
+    if (texte === '') {
+      return [...this.avions];
+    }
+
+    return this.avions.filter(
+      avion => (avion.modele || '').toLowerCase().includes(texte)
+    );
+  }
+
   consulterCompagnie(id: number): Compagnie {
-    const compagnie = this.compagnies.find(c => c.idCompagnie == id);
+    const compagnie = this.compagnies.find(
+      c => c.idCompagnie === Number(id)
+    );
+
     if (!compagnie) {
       throw new Error('Compagnie introuvable');
     }
+
     return compagnie;
   }
 
@@ -69,25 +96,34 @@ export class AvionService {
   }
 
   supprimerAvion(avion: Avion): void {
-    const index = this.avions.indexOf(avion, 0);
+    const index = this.avions.findIndex(
+      a => a.idAvion === avion.idAvion
+    );
+
     if (index > -1) {
       this.avions.splice(index, 1);
     }
   }
 
   consulterAvion(id: number): Avion {
-    const avion = this.avions.find(a => a.idAvion == id);
+    const avion = this.avions.find(
+      a => a.idAvion === Number(id)
+    );
+
     if (!avion) {
       throw new Error('Avion introuvable');
     }
+
     return avion;
   }
 
   updateAvion(avion: Avion): void {
-    const index = this.avions.findIndex(a => a.idAvion == avion.idAvion);
+    const index = this.avions.findIndex(
+      a => a.idAvion === avion.idAvion
+    );
+
     if (index > -1) {
-      this.avions.splice(index, 1);
-      this.avions.splice(index, 0, avion);
+      this.avions[index] = avion;
     }
   }
 }
