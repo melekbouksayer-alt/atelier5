@@ -4,7 +4,7 @@
 
       <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Liste des Avions</h2>
-        <a class="btn btn-primary" routerLink="/add-avion">Ajouter un avion</a>
+       
       </div>
 
       <table class="table table-striped table-bordered">
@@ -16,7 +16,9 @@
             <th>Compagnie</th>
             <th>Capacité</th>
             <th>Date mise en service</th>
+            @if(authService.isAdmin()){
             <th>Actions</th>
+            }
           </tr>
         </thead>
 
@@ -29,7 +31,9 @@
               <td>{{ avion.compagnie.nomCompagnie }}</td>
               <td>{{ avion.capacite }}</td>
               <td>{{ avion.dateMiseEnService | date:'dd/MM/yyyy' }}</td>
+              @if(authService.isAdmin()){
               <td>
+                
                 <a class="btn btn-success btn-sm me-1"
                    [routerLink]="['/updateAvion', avion.idAvion]">
                   Modifier
@@ -39,7 +43,9 @@
                    (click)="supprimerAvion(avion)">
                   Supprimer
                 </a>
+              
               </td>
+            }
             </tr>
           </tbody>
         } @empty {

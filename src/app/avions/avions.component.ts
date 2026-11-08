@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Avion } from '../model/avion.model';
 import { AvionService } from '../services/avion.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-avions',
@@ -15,7 +16,8 @@ export class AvionsComponent implements OnInit {
 
   avions: Avion[];
 
-  constructor(private avionService: AvionService) {
+  constructor(private avionService: AvionService,
+    public authService: AuthService) {
     this.avions = avionService.listeAvions();
   }
 
